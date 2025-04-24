@@ -29,6 +29,8 @@ func MatchUserRepo(rawPath string, cfg *config.Config, c *gin.Context, matches [
 	// 返回错误信息
 	errMsg := fmt.Sprintf("%s %s %s %s %s Invalid URL", c.ClientIP(), c.Request.Method, rawPath, c.Request.Header.Get("User-Agent"), c.Request.Proto)
 	logWarning(errMsg)
-	c.String(http.StatusForbidden, "Invalid path; expected username/repo, Path: %s", rawPath)
+	// 重定向至目标地址
+	c.Redirect(http.StatusPermanentRedirect, rawPath)
+	// c.String(http.StatusForbidden, "Invalid path; expected username/repo, Path: %s", rawPath)
 	return "", ""
 }
